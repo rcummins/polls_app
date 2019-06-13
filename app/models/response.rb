@@ -1,5 +1,6 @@
 class Response < ApplicationRecord
-    validate :not_duplicate_response, :not_response_by_author
+    validate :not_duplicate_response, unless: -> { self.answer_choice.nil? }
+    validate :not_response_by_author, unless: -> { self.answer_choice.nil? }
 
     belongs_to :answer_choice
     belongs_to :respondent, class_name: :User, foreign_key: :user_id
