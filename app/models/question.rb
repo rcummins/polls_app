@@ -6,17 +6,11 @@ class Question < ApplicationRecord
     has_many :responses, through: :answer_choices
 
     def results
-        response_data = Question
-            .select('answer_choices.text, COUNT(responses.id) AS counts')
+        self
+            .answer_choices
+            .select('answer_choices.text')
             .left_outer_joins(:responses)
-            .where('questions.id = ?', self.id)
             .group('answer_choices.text')
-
-        response_counts = {}
-        response_data.each do |answer_choice|
-            response_counts[answer_choice.text] = answer_choice.counts
-        end
-
-        response_counts
+            .count('responses.id')
     end
 end
