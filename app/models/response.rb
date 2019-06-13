@@ -16,7 +16,7 @@ class Response < ApplicationRecord
     end
 
     def respondent_is_author?
-        self.respondent == self.poll.author
+        self.user_id == self.poll.author.id
     end
 
     def not_duplicate_response
